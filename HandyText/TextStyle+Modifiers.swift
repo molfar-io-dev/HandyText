@@ -11,272 +11,231 @@ extension TextStyle {
   
   //MARK: - Based on
   
-  public class func based(on style: TextStyle) -> TextStyle {
-    return style.copy()
+  public static func based(on style: TextStyle,
+                           modifier: ((inout TextStyle) -> Void)? = nil) -> TextStyle {
+    var copy = style.copy()
+    modifier?(&copy)
+    return copy
   }
   
   //MARK: - Fill color
   
-  public func withForegroundColor(_ color: UIColor) -> TextStyle {
-    let copy = self.copy()
-    copy.foregroundColor = color
-    return copy
+  public func foregroundColor(_ color: UIColor) -> TextStyle {
+    copy(with: \.foregroundColor, setTo: color)
   }
   
-  public func withBackgroundColor(_ color: UIColor) -> TextStyle {
-    let copy = self.copy()
-    copy.backgroundColor = color
-    return copy
+  public func backgroundColor(_ color: UIColor) -> TextStyle {
+    copy(with: \.backgroundColor, setTo: color)
   }
   
   //MARK: - Size
   
-  public func withSize(_ size: CGFloat) -> TextStyle {
-    let copy = self.copy()
-    copy.size = size
-    return copy
+  public func size(_ size: CGFloat) -> TextStyle {
+    copy(with: \.size, setTo: size)
   }
   
-  public func withSizeIncremented(by increment: CGFloat) -> TextStyle {
-    let copy = self.copy()
-    copy.size += increment
-    return copy
+  public func sizeIncremented(by increment: CGFloat) -> TextStyle {
+    copy(with: \.size, setTo: size + increment)
   }
   
-  public func withSizeMultiplied(by multiplicator: CGFloat) -> TextStyle {
-    let copy = self.copy()
-    copy.size *= multiplicator
-    return copy
+  public func sizeMultiplied(by multiplier: CGFloat) -> TextStyle {
+    copy(with: \.size, setTo: size * multiplier)
   }
   
-  public func withDynamicFontStyle(_ style: DynamicFontStyle) -> TextStyle {
-    let copy = self.copy()
-    copy.size = UIFont.preferredFont(forTextStyle: UIFont.TextStyle(rawValue: style.literal)).pointSize
-    return copy
+  public func dynamicFontStyle(_ style: DynamicFontStyle) -> TextStyle {
+    copy(with: \.size, setTo:  UIFont.preferredFont(forTextStyle: UIFont.TextStyle(rawValue: style.literal)).pointSize)
   }
   
   //MARK: - Thickness
-
+  
   public func extralight() -> TextStyle {
-    let copy = self.copy()
-    copy.thickness = .extralight
-    return copy
+    copy(with: \.thickness, setTo: .extralight)
   }
   
   public func light() -> TextStyle {
-    let copy = self.copy()
-    copy.thickness = .light
-    return copy
+    copy(with: \.thickness, setTo: .light)
   }
   
   public func regular() -> TextStyle {
-    let copy = self.copy()
-    copy.thickness = .regular
-    return copy
+    copy(with: \.thickness, setTo: .regular)
   }
   
   public func medium() -> TextStyle {
-    let copy = self.copy()
-    copy.thickness = .medium
-    return copy
+    copy(with: \.thickness, setTo: .medium)
+  }
+  
+  public func semibold() -> TextStyle {
+    copy(with: \.thickness, setTo: .semibold)
   }
   
   public func bold() -> TextStyle {
-    let copy = self.copy()
-    copy.thickness = .bold
-    return copy
+    copy(with: \.thickness, setTo: .bold)
   }
   
   public func heavy() -> TextStyle {
-    let copy = self.copy()
-    copy.thickness = .heavy
-    return copy
+    copy(with: \.thickness, setTo: .heavy)
   }
   
   public func extraheavy() -> TextStyle {
-    let copy = self.copy()
-    copy.thickness = .extraheavy
-    return copy
+    copy(with: \.thickness, setTo: .extraheavy)
   }
   
   //MARK: - Slant
   
   public func italic() -> TextStyle {
-    let copy = self.copy()
-    copy.isItalic = true
-    return copy
+    copy(with: \.isItalic, setTo: true)
   }
   
   public func roman() -> TextStyle {
-    let copy = self.copy()
-    copy.isItalic = false
-    return copy
+    copy(with: \.isItalic, setTo: false)
   }
   
   //MARK: - Case Trait, mutually exclusive
   
   public func capitalized() -> TextStyle {
-    let copy = self.copy()
-    copy.caseTrait = .capitalized
-    return copy
+    copy(with: \.caseTrait, setTo: .capitalized)
   }
   
   public func lowercase() -> TextStyle {
-    let copy = self.copy()
-    copy.caseTrait = .lowercase
-    return copy
+    copy(with: \.caseTrait, setTo: .lowercase)
   }
   
   public func uppercase() -> TextStyle {
-    let copy = self.copy()
-    copy.caseTrait = .uppercase
-    return copy
+    copy(with: \.caseTrait, setTo: .uppercase)
   }
   
   //MARK: - Underline
   
-  public func withUnderline(_ style: NSUnderlineStyle) -> TextStyle {
-    let copy = self.copy()
-    copy.underlineStyle = style
-    return copy
+  public func underline(_ style: NSUnderlineStyle) -> TextStyle {
+    copy(with: \.underlineStyle, setTo: style)
   }
   
-  public func withUnderlineColor(_ color: UIColor?) -> TextStyle {
-    let copy = self.copy()
-    copy.underlineColor = color
-    return copy
+  public func underlineColor(_ color: UIColor?) -> TextStyle {
+    copy(with: \.underlineColor, setTo: color)
   }
   
   //MARK: - Strikethrough
   
-  public func withStrikethrough(_ strikethrough: Bool) -> TextStyle {
-    let copy = self.copy()
-    copy.strikethrough = strikethrough
-    return copy
+  public func strikethrough(_ strikethrough: Bool) -> TextStyle {
+    copy(with: \.strikethrough, setTo: strikethrough)
   }
   
-  public func withStrikethroughColor(_ color: UIColor?) -> TextStyle {
-    let copy = self.copy()
-    copy.strikeThroughColor = color
-    return copy
+  public func strikethroughColor(_ color: UIColor?) -> TextStyle {
+    copy(with: \.strikeThroughColor, setTo: strikeThroughColor)
   }
   
   //MARK: - Ligatures
   
-  public func withLigatures(enabled: Bool) -> TextStyle {
-    let copy = self.copy()
-    copy.ligaturesEnabled = enabled
-    return copy
+  public func ligaturesEnabled(_ enabled: Bool) -> TextStyle {
+    copy(with: \.ligaturesEnabled, setTo: enabled)
   }
   
   //MARK: - Stroke
   
-  public func withStrokeWidth(_ width: CGFloat) -> TextStyle {
-    let copy = self.copy()
-    copy.strokeWidth = width
-    return copy
+  public func strokeWidth(_ width: CGFloat) -> TextStyle {
+    copy(with: \.strokeWidth, setTo: strokeWidth)
   }
-
-  public func withStrokeColor(_ color: UIColor?) -> TextStyle {
-    let copy = self.copy()
-    copy.strokeColor = color
-    return copy
+  
+  public func strokeColor(_ color: UIColor?) -> TextStyle {
+    copy(with: \.strokeColor, setTo: color)
   }
   
   //MARK: - Shadow
   
-  public func withShadow(_ shadow: NSShadow?) -> TextStyle {
-    let copy = self.copy()
-    copy.shadow = shadow
-    return copy
+  public func shadow(_ shadow: NSShadow?) -> TextStyle {
+    copy(with: \.shadow, setTo: shadow)
   }
   
   // MARK: - Opacity
   
-  public func withOpacity(_ opacity: CGFloat) -> TextStyle {
-    let copy = self.copy()
-    copy.opacity = opacity
-    return copy
+  public func opacity(_ opacity: CGFloat) -> TextStyle {
+    copy(with: \.opacity, setTo: opacity)
   }
   
   //MARK: - Link 
   
-  public func withLink(_ link: String?) -> TextStyle {
-    let copy = self.copy()
-    copy.link = link
-    return copy
+  public func link(_ link: String?) -> TextStyle {
+    copy(with: \.link, setTo: link)
   }
   
   //MARK: - Offset
   
-  public func withBaselineOffset(absolute offset: CGFloat) -> TextStyle {
-    let copy = self.copy()
-    copy.baselineOffset = .absolute(offset)
-    return copy
+  public func baselineOffset(absolute offset: CGFloat) -> TextStyle {
+    copy(with: \.baselineOffset, setTo: .absolute(offset))
   }
   
-  func withBaselineOffset(relative ratio: CGFloat) -> TextStyle {
-    let copy = self.copy()
-    copy.baselineOffset = .relative(ratio)
-    return copy
+  func baselineOffset(relative ratio: CGFloat) -> TextStyle {
+    copy(with: \.baselineOffset, setTo: .relative(ratio))
   }
   
   //MARK: - Paragraph style options
   
-  public func withParagraphStyle(_ style: NSParagraphStyle) -> TextStyle {
-    let copy = self.copy()
-    copy.paragraphStyle = style.mutableCopy() as! NSMutableParagraphStyle
-    return copy
+  public func paragraphStyle(_ style: NSParagraphStyle) -> TextStyle {
+    copy(with: \.paragraphStyle, setTo: style.mutableCopy() as! NSMutableParagraphStyle)
   }
   
-  public func withLineBreakMode(_ mode: NSLineBreakMode) -> TextStyle {
-    let copy = self.copy()
-    copy.paragraphStyle.lineBreakMode = mode
-    return copy
+  public func lineBreakMode(_ mode: NSLineBreakMode) -> TextStyle {
+    copy(with: \.paragraphStyle.lineBreakMode, setTo: mode)
   }
   
-  public func withHeadIndent(_ indent: CGFloat) -> TextStyle {
-    let copy = self.copy()
-    copy.paragraphStyle.headIndent = indent
-    return copy
+  public func headIndent(_ indent: CGFloat) -> TextStyle {
+    copy(with: \.paragraphStyle.headIndent, setTo: indent)
   }
   
-  public func withFirstLineIndent(_ indent: CGFloat) -> TextStyle {
-    let copy = self.copy()
-    copy.paragraphStyle.firstLineHeadIndent = indent
-    return copy
+  public func firstLineIndent(_ indent: CGFloat) -> TextStyle {
+    copy(with: \.paragraphStyle.firstLineHeadIndent, setTo: indent)
   }
   
-  public func withParagraphSpacing(_ spacing: CGFloat) -> TextStyle {
-    let copy = self.copy()
-    copy.paragraphStyle.paragraphSpacing = spacing
-    return copy
-  }
-
-  public func withParagraphSpacingBefore(_ spacing: CGFloat) -> TextStyle {
-    let copy = self.copy()
-    copy.paragraphStyle.paragraphSpacingBefore = spacing
-    return copy
-  }
-
-  public func withAlignment(_ alignment: NSTextAlignment) -> TextStyle {
-    let copy = self.copy()
-    copy.paragraphStyle.alignment = alignment
-    return copy
+  public func paragraphSpacing(_ spacing: CGFloat) -> TextStyle {
+    copy(with: \.paragraphStyle.paragraphSpacing, setTo: spacing)
   }
   
-  public func withLineSpacing(_ spacing: CGFloat) -> TextStyle {
-    let copy = self.copy()
-    copy.paragraphStyle.lineSpacing = spacing
-    return copy
+  public func paragraphSpacingBefore(_ spacing: CGFloat) -> TextStyle {
+    copy(with: \.paragraphStyle.paragraphSpacingBefore, setTo: spacing)
+  }
+  
+  public func alignment(_ alignment: NSTextAlignment) -> TextStyle {
+    copy(with: \.paragraphStyle.alignment, setTo: alignment)
+  }
+  
+  public func lineSpacing(_ spacing: CGFloat) -> TextStyle {
+    copy(with: \.paragraphStyle.lineSpacing, setTo: spacing)
+  }
+  
+  public func minLineHeight(_ height: CGFloat) -> TextStyle {
+    copy(with: \.paragraphStyle.minimumLineHeight, setTo: height)
+  }
+  
+  public func maxLineHeight(_ height: CGFloat) -> TextStyle {
+    copy(with: \.paragraphStyle.maximumLineHeight, setTo: height)
   }
   
   // MARK: - Letter spacing
   
-  public func withLetterSpacing(_ spacing: CGFloat) -> TextStyle {
-    let copy = self.copy()
-    copy.letterSpacing = spacing
+  public func letterSpacing(_ spacing: CGFloat) -> TextStyle {
+    copy(with: \.letterSpacing, setTo: spacing)
+  }
+  
+  // MARK: - Hyphenation
+  
+  public func hyphenationFactor(_ factor: Float) -> TextStyle {
+    copy(with: \.paragraphStyle.hyphenationFactor, setTo: factor)
+  }
+  
+  // MARK: - Tag scheme
+  
+  public func tagScheme(_ scheme: TagScheme) -> TextStyle {
+    copy(with: \.tagScheme, setTo: scheme)
+  }
+  
+}
+
+private extension TextStyle {
+  
+  func copy<T>(with keyPath: WritableKeyPath<TextStyle, T>,
+               setTo value: T) -> TextStyle {
+    var copy = TextStyle.based(on: self)
+    copy[keyPath: keyPath] = value
     return copy
   }
-
 }
