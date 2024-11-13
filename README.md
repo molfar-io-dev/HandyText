@@ -15,21 +15,23 @@ The alternative way is in avoiding the use of IB for defining text appearance, b
 Supported OS & SDK Versions
 -----------------------------
 
-Swift 5.0
-* Supported build target - iOS 10.1 and up (Xcode 10)
+Swift 6.0
+* Supported build target - iOS 15.0 and up (Xcode 16)
 
 Installation
 --------------
 
-```ruby
-# In your Podfile
+To integrate SnapKit into your Xcode project using Swift Package Manager, add it to the dependencies value of your Package.swift:
 
-pod 'HandyText'
+```swift
+dependencies: [
+    .package(url: "https://github.com/molfar-io-dev/HandyText.git", .upToNextMajor(from: "1.5.0"))
+]
 ```
 
 Declare own text styles as static functions or properties of TextStyle class.
 
-Version 1.4.5
+Version 1.5.0
 
 - Release version.
 
