@@ -9,12 +9,11 @@ import UIKit
 
 public protocol TextStyleApplicable {
   
-  func setText(_ text: String, with style: TextStyle)
+  @MainActor func setText(_ text: String, with style: TextStyle)
   
 }
 
 public extension TextStyleApplicable where Self: NSObject {
-  
   
   func applyAttributes(from style: TextStyle) {
     let font = style.textAttributes[.font] as? UIFont
